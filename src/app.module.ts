@@ -6,7 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'path';
 
-console.log('Cargando .env desde:', path.resolve('.env')); // Verificar ruta del archivo
+console.log('Cargando .env desde:', path.resolve('.env'));
 
 @Module({
   imports: [

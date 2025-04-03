@@ -12,13 +12,13 @@ export class User {
     password: string;
 
     @Prop({ required: true })
-    fullName: string;
+    name: string;
 
     @Prop({ required: true, unique: true })
     email: string;
 
     @Prop()
-    phoneNumber?: string;
+    phone?: string;
 
     @Prop({ required: true })
     role: string;
