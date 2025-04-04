@@ -11,17 +11,55 @@ export class User {
     @Prop({ required: true })
     password: string;
 
+    @Prop({ required: true, unique: true })
+    email: string;
+
     @Prop({ required: true })
     name: string;
 
-    @Prop({ required: true, unique: true })
-    email: string;
+    @Prop({ required: true })
+    lastname: string;
+
+    @Prop()
+    edad: number;
+
+    @Prop({ required: true })
+    provincia: string;
 
     @Prop()
     phone?: string;
 
-    @Prop({ required: true })
-    role: string;
+    @Prop()
+    instagram?: string;
+
+    @Prop({ default: " " })
+    profilePhoto: string;
+
+    @Prop({ default: " " })
+    banner: string;
+
+    @Prop({
+        type: [
+            {
+                url: String,
+                description: {
+                    band: String,
+                    instrument: String,
+                    photoYear: Number,
+                },
+            },
+        ],
+        default: [],
+    })
+    multimedia: {
+        url: string;
+        description: {
+            band: string;
+            instrument: string;
+            photoYear: number;
+        };
+    }[];
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
