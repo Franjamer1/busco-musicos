@@ -37,4 +37,8 @@ export class UsersService {
       $or: [{ username }, { email }],
     });
   }
+
+  async findByUsername(username: string): Promise<User | null> {
+    return this.userModel.findOne({ username });
+  }
 }
