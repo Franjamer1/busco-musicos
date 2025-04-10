@@ -31,4 +31,10 @@ export class UsersService {
   remove(id: string) {
     return `This action removes a #${id} user`;
   }
+
+  async findByUsernameOrEmail(username: string, email: string): Promise<User | null> {
+    return this.userModel.findOne({
+      $or: [{ username }, { email }],
+    });
+  }
 }
