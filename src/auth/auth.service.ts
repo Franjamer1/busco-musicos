@@ -1,10 +1,11 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { ConflictException, ForbiddenException, Injectable } from '@nestjs/common';
+// import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/schemas/user.schema';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserDocument } from 'src/users/schemas/user.schema';
+import { RegisterAuthDto, UserRole } from './dto/register-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,8 +13,13 @@ export class AuthService {
         private jwtService: JwtService,
     ) { }
 
-    async register(createUserDto: CreateUserDto): Promise<User> {
-        const { username, email, password } = createUserDto;
+    async register(registerDto: RegisterAuthDto): Promise<User> {
+        const { username, email, password, role } = registerDto;
+
+        //evitar que se registre un admin desde el endpoint publico
+        if (role === UserRole.Admin) {
+            throw new ForbiddenException("No esta permitido crear usuarios con rol de administrador.")
+        }
 
         //verificacion de que el usuario o email ya existen
         const existingUser = await this.userService.findByUsernameOrEmail(username, email)
@@ -27,7 +33,7 @@ export class AuthService {
 
         //creacion del usuario con la contraseña encriptada
         const newUser = await this.userService.create({
-            ...createUserDto,
+            ...registerDto,
             password: hashedPassword,
         });
         return newUser;
