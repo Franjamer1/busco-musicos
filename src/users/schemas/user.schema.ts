@@ -57,6 +57,8 @@ export class User {
         };
     }[];
 
+    @Prop({ required: true, enum: ["musician", "band", "admin"], default: "musician" })
+    role: "musician" | "band" | "admin";
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
