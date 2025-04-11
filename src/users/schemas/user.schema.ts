@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { UserRole } from "src/auth/dto/register-auth.dto";
 
 export type UserDocument = User & Document;
 
@@ -14,12 +13,6 @@ export class User {
 
     @Prop({ required: true, unique: true })
     email: string;
-
-    @Prop()
-    name: string;
-
-    @Prop()
-    edad: number;
 
     @Prop()
     provincia: string;
@@ -41,8 +34,8 @@ export class User {
             {
                 url: String,
                 description: {
-                    band: String,
-                    instrument: String,
+                    band: { type: String, default: " " },
+                    instrument: { type: String, default: " " },
                     photoYear: Number,
                 },
             },
@@ -52,14 +45,11 @@ export class User {
     multimedia: {
         url: string;
         description: {
-            band: string;
-            instrument: string;
+            band?: string;
+            instrument?: string;
             photoYear: number;
         };
     }[];
-
-    @Prop({ required: true, enum: UserRole })
-    role: UserRole;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

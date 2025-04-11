@@ -1,13 +1,51 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
+import {
+    IsEmail,
+    IsEnum,
+    IsNotEmpty,
+    IsOptional,
+    IsString,
+    IsArray,
+    ValidateNested,
+    IsNumber,
+    Length,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export enum UserRole {
-    Musician = "musician",
-    Band = "band",
-    Admin = "admin",
+    Musician = 'musician',
+    Band = 'band',
+    Admin = 'admin',
 }
-export class RegisterAuthDto {
+
+// Multimedia nested DTO (usado por ambos tipos de usuario)
+class MultimediaDescriptionDto {
+    @IsOptional()
     @IsString()
+    band?: string;
+
+    @IsOptional()
+    @IsString()
+    instrument?: string;
+
     @IsNotEmpty()
+    @IsNumber()
+    photoYear: number;
+}
+
+class MultimediaDto {
+    @IsNotEmpty()
+    @IsString()
+    url: string;
+
+    @ValidateNested()
+    @Type(() => MultimediaDescriptionDto)
+    description: MultimediaDescriptionDto;
+}
+
+// 👥 DTO principal
+export class RegisterAuthDto {
+    @IsNotEmpty()
+    @IsString()
     username: string;
 
     @IsString()
@@ -20,26 +58,53 @@ export class RegisterAuthDto {
     @IsEnum(UserRole)
     role: UserRole;
 
+    // Campos comunes
+    @IsOptional()
+    @IsString()
+    provincia?: string;
+
+    @IsOptional()
+    @IsString()
+    phone?: string;
+
+    @IsOptional()
+    @IsString()
+    instagram?: string;
+
+    @IsOptional()
+    @IsString()
+    profilePhoto?: string;
+
+    @IsOptional()
+    @IsString()
+    banner?: string;
+
+    @IsOptional()
+    @IsArray()
+    @ValidateNested({ each: true })
+    @Type(() => MultimediaDto)
+    multimedia?: MultimediaDto[];
+
+    // Campos específicos de musician
     @IsOptional()
     @IsString()
     name?: string;
 
     @IsOptional()
+    @IsNumber()
     edad?: number;
 
+    // Campos específicos de band
     @IsOptional()
-    provincia: string;
-
-    @IsOptional()
-    phone?: string;
-
     @IsString()
-    instagram: string;
+    bio?: string;
 
     @IsOptional()
-    profilePhoto: string;
+    @IsString()
+    website?: string;
 
     @IsOptional()
-    banner: string;
-
+    @IsArray()
+    @IsString({ each: true })
+    socialLinks?: string[];
 }
