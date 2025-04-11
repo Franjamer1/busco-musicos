@@ -4,7 +4,7 @@ import { UserRole } from "src/auth/dto/register-auth.dto";
 
 export type UserDocument = User & Document;
 
-@Schema()
+@Schema({ discriminatorKey: "role", timestamps: true })
 export class User {
     @Prop({ required: true, unique: true })
     username: string;
