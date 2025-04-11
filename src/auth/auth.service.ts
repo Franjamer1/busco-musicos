@@ -1,5 +1,4 @@
 import { ConflictException, ForbiddenException, Injectable } from '@nestjs/common';
-// import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/schemas/user.schema';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
