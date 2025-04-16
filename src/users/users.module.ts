@@ -6,6 +6,7 @@ import { User, UserSchema } from './schemas/user.schema';
 import { Band, BandSchema } from './schemas/band.schema';
 import { Musician, MusicianSchema } from './schemas/musician.schema';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
         },
       },
     ]),
+    CloudinaryModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

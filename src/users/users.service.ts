@@ -36,13 +36,13 @@ export class UsersService {
     return this.userModel.findById(id).exec();
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} user`;
-  }
+  async updateProfilePhoto(userId: string, photoUrl: string) {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { profilePhoto: photoUrl },
+      { new: true },
+    )
+  };
 
   async findByUsernameOrEmail(username: string, email: string): Promise<User | null> {
     return this.userModel.findOne({
