@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { BandModule } from './band/band.module';
 import { AdminModule } from './admin/admin.module';
+import { MusicianModule } from './musician/musician.module';
 import * as path from 'path';
 
 console.log('Cargando .env desde:', path.resolve('.env'));
@@ -22,6 +23,7 @@ console.log('Cargando .env desde:', path.resolve('.env'));
     AuthModule,
     BandModule,
     AdminModule,
+    MusicianModule,
   ],
   controllers: [AppController],
   providers: [AppService],
