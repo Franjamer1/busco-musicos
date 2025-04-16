@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { BandModule } from './band/band.module';
+import { AdminModule } from './admin/admin.module';
 import * as path from 'path';
 
 console.log('Cargando .env desde:', path.resolve('.env'));
@@ -18,6 +20,8 @@ console.log('Cargando .env desde:', path.resolve('.env'));
     MongooseModule.forRoot(process.env.MONGODB_URI || ''),
     UsersModule,
     AuthModule,
+    BandModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
