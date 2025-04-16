@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { BandModule } from './band/band.module';
 import { AdminModule } from './admin/admin.module';
 import { MusicianModule } from './musician/musician.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import * as path from 'path';
 
 console.log('Cargando .env desde:', path.resolve('.env'));
@@ -24,6 +25,7 @@ console.log('Cargando .env desde:', path.resolve('.env'));
     BandModule,
     AdminModule,
     MusicianModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
