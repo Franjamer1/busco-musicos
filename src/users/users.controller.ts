@@ -20,11 +20,12 @@ export class UsersController {
     @UploadedFile() file: Express.Multer.File,
     @Req() req: any,
   ) {
-    const userId = req.user._id;
+    const userId = req.user.userId;
 
     const uploadResult = await this.cloudinaryService.uploadImage(file);
 
     return this.usersService.updateProfilePhoto(userId, uploadResult.secure_url);
+
   }
 
   @Post("register")
