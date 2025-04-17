@@ -23,7 +23,7 @@ export class User {
     @Prop()
     instagram?: string;
 
-    @Prop({ default: null })
+    @Prop({ default: " " })
     profilePhoto: string;
 
     @Prop({ default: " " })
