@@ -41,8 +41,16 @@ export class UsersService {
       userId,
       { profilePhoto: photoUrl },
       { new: true },
-    )
-  };
+    );
+  }
+
+  async updateBanner(userId: string, bannerUrl: string) {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      { banner: bannerUrl },
+      { new: true },
+    );
+  }
 
   async findByUsernameOrEmail(username: string, email: string): Promise<User | null> {
     return this.userModel.findOne({

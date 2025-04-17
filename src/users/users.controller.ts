@@ -28,6 +28,20 @@ export class UsersController {
 
   }
 
+  @Post("upload/banner")
+  @UseInterceptors(FileInterceptor("file"))
+  async uploadBanner(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: any,
+  ) {
+    const userId = req.user.userId
+
+    const uploadResult = await this.cloudinaryService.uploadImage(file);
+
+    return this.usersService.updateBanner(userId, uploadResult.secure_url);
+
+  }
+
   @Post("register")
   create() {
     throw new BadRequestException("Usa /auth/register para crear usuarios")
