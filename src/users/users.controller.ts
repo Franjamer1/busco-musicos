@@ -5,6 +5,7 @@ import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CreateMultimediaDto } from './dto/create-multimedia.dto';
 
 @UseGuards(AuthGuard("jwt"))
 @Controller('users')
@@ -40,6 +41,23 @@ export class UsersController {
 
     return this.usersService.updateBanner(userId, uploadResult.secure_url);
 
+  }
+
+  @Post("upload/multimedia")
+  @UseInterceptors(FileInterceptor("file"))
+  async uploadMultimedia(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: CreateMultimediaDto,
+    @Req() req: any,
+  ) {
+    const userId = req.user.userId;
+    const uploadResult = await this.cloudinaryService.uploadImage(file);
+
+    return this.usersService.addMultimedia(userId, uploadResult.secure_url, body.tipo, {
+      band: body.band,
+      instrument: body.instrument,
+      year: body.year
+    });
   }
 
   @Post("register")

@@ -52,6 +52,18 @@ export class UsersService {
     );
   }
 
+  async addMultimedia(userId: string, url: string, tipo: "foto" | "video", description: any) {
+    return this.userModel.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          multimedia: { url, tipo, description },
+        },
+      },
+      { new: true }
+    );
+  }
+
   async findByUsernameOrEmail(username: string, email: string): Promise<User | null> {
     return this.userModel.findOne({
       $or: [{ username }, { email }],
