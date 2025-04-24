@@ -32,11 +32,12 @@ export class User {
     @Prop({
         type: [
             {
-                url: String,
+                url: { type: String, required: true },
+                tipo: { type: String, enum: ["foto", "video"], required: true },
                 description: {
-                    band: { type: String, default: " " },
-                    instrument: { type: String, default: " " },
-                    photoYear: Number,
+                    band: { type: String },
+                    instrument: { type: String },
+                    year: Number,
                 },
             },
         ],
@@ -44,10 +45,11 @@ export class User {
     })
     multimedia: {
         url: string;
+        tipo: "foto" | "video",
         description: {
             band?: string;
             instrument?: string;
-            photoYear: number;
+            year?: number;
         };
     }[];
 }

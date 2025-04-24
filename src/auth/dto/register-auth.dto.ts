@@ -29,7 +29,7 @@ class MultimediaDescriptionDto {
 
     @IsNotEmpty()
     @IsNumber()
-    photoYear: number;
+    year: number;
 }
 
 class MultimediaDto {
