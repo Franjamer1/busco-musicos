@@ -10,6 +10,8 @@ import { AdminModule } from './admin/admin.module';
 import { MusicianModule } from './musician/musician.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import * as path from 'path';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './common/guards/roles.guard';
 
 console.log('Cargando .env desde:', path.resolve('.env'));
 
@@ -28,7 +30,12 @@ console.log('Cargando .env desde:', path.resolve('.env'));
     CloudinaryModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    }
+  ],
 })
 export class AppModule { }
 

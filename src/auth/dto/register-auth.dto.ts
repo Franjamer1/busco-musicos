@@ -10,12 +10,7 @@ import {
     Length,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-
-export enum UserRole {
-    Musician = 'musician',
-    Band = 'band',
-    Admin = 'admin',
-}
+import { UserRole } from 'src/common/enums/user-role.enum';
 
 // Multimedia nested DTO (usado por ambos tipos de usuario)
 class MultimediaDescriptionDto {
