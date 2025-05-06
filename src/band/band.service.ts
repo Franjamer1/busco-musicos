@@ -1,26 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBandDto } from './dto/create-band.dto';
-import { UpdateBandDto } from './dto/update-band.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User, UserDocument } from '../users/schemas/user.schema';
+import { CreateAdDto } from './dto/create-ad.dto';
 
 @Injectable()
 export class BandService {
-  create(createBandDto: CreateBandDto) {
-    return 'This action adds a new band';
-  }
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+  ) { }
 
-  findAll() {
-    return `This action returns all band`;
-  }
+  async createAd(bandId: string, createAdDto: CreateAdDto) {
+    const BandModel = this.userModel.discriminators?.['band'];
+    if (!BandModel) {
+      throw new Error('El discriminador "band" no está definido');
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} band`;
-  }
+    const band = await BandModel.findById(bandId);
+    if (!band) {
+      throw new NotFoundException('Banda no encontrada');
+    }
 
-  update(id: number, updateBandDto: UpdateBandDto) {
-    return `This action updates a #${id} band`;
-  }
+    const ad = {
+      ...createAdDto,
+      createdAt: new Date(),
+    };
 
-  remove(id: number) {
-    return `This action removes a #${id} band`;
+    band.ads.push(ad);
+    await band.save();
+    return band;
   }
 }
