@@ -103,3 +103,5 @@ export class RegisterAuthDto {
     @IsString({ each: true })
     socialLinks?: string[];
 }
+
+export { UserRole };
