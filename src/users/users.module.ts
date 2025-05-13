@@ -5,7 +5,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 import { Band, BandSchema } from './schemas/band.schema';
 import { Musician, MusicianSchema } from './schemas/musician.schema';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
@@ -15,8 +14,15 @@ import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
         name: User.name,
         useFactory: () => {
           const schema = UserSchema;
+
+          // Eliminar el campo 'role' de los discriminators si existe
+          MusicianSchema.remove('role');
+          BandSchema.remove('role');
+
+          // Registrar discriminators
           schema.discriminator('musician', MusicianSchema);
           schema.discriminator('band', BandSchema);
+
           return schema;
         },
       },
@@ -28,3 +34,36 @@ import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
   exports: [UsersService, MongooseModule],
 })
 export class UsersModule { }
+
+
+
+//{ import { Module } from '@nestjs/common';
+// import { UsersService } from './users.service';
+// import { UsersController } from './users.controller';
+// import { MongooseModule } from '@nestjs/mongoose';
+// import { User, UserSchema } from './schemas/user.schema';
+// import { Band, BandSchema } from './schemas/band.schema';
+// import { Musician, MusicianSchema } from './schemas/musician.schema';
+// import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+// import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+
+// @Module({
+//   imports: [
+//     MongooseModule.forFeatureAsync([
+//       {
+//         name: User.name,
+//         useFactory: () => {
+//           const schema = UserSchema;
+//           schema.discriminator('musician', MusicianSchema);
+//           schema.discriminator('band', BandSchema);
+//           return schema;
+//         },
+//       },
+//     ]),
+//     CloudinaryModule,
+//   ],
+//   controllers: [UsersController],
+//   providers: [UsersService],
+//   exports: [UsersService, MongooseModule],
+// })
+// export class UsersModule { }}

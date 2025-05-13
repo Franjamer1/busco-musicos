@@ -30,12 +30,7 @@ console.log('Cargando .env desde:', path.resolve('.env'));
     CloudinaryModule,
   ],
   controllers: [AppController],
-  providers: [AppService,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    }
-  ],
+  providers: [AppService],
 })
 export class AppModule { }
 

@@ -6,6 +6,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateMultimediaDto } from './dto/create-multimedia.dto';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { UserRole } from 'src/common/enums/user-role.enum';
 
 @UseGuards(AuthGuard("jwt"))
 @Controller('users')
