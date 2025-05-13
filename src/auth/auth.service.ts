@@ -41,14 +41,15 @@ export class AuthService {
     async validateUser(username: string, password: string) {
         const user = await this.userService.findByUsername(username) as UserDocument;
         if (user && await bcrypt.compare(password, user.password)) {
-            const { password, ...result } = user.toObject();//exclusion de la password
+            const { password, ...result } = user.toObject();
             return result;
         }
         return null;
     }
 
     async login(user: any) {
-        const payload = { username: user.username, sub: user._id };
+        const payload = { username: user.username, sub: user._id, role: user.role };
+
         return {
             access_token: this.jwtService.sign(payload),
         };
