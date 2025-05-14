@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Get, Query } from '@nestjs/common';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { BandService } from './band.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
@@ -17,5 +17,15 @@ export class BandController {
     console.log('🎯 BandController - req.user:', req.user);
     const bandId = req.user.userId;
     return this.bandService.createAd(bandId, createAdDto);
+  }
+
+  @Get('ads')
+  async getAds(
+    @Query('province') province?: string,
+    @Query('instrument') instrument?: string,
+    @Query('search') search?: string,
+  ) {
+
+    return this.bandService.getFilteredAds({ province, instrument, search });
   }
 }
