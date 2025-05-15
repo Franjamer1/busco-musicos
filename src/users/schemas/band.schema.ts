@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { User } from "./user.schema";
+import { Instrument } from "src/common/enums/instrument.enum";
+import { Province } from "src/common/enums/province.enum";
 
 @Schema()
 export class Band extends User {
@@ -18,8 +20,16 @@ export class Band extends User {
             {
                 title: { type: String, required: true },
                 description: { type: String, required: true },
-                instrument: { type: String, required: true },
-                province: { type: String },
+                instrument: {
+                    type: String,
+                    enum: Object.values(Instrument),
+                    required: true,
+                },
+                province: {
+                    type: String,
+                    enum: Object.values(Province),
+                    required: false,
+                },
                 createdAt: { type: Date, default: Date.now },
             },
         ],
@@ -28,8 +38,8 @@ export class Band extends User {
     ads: {
         title: string;
         description: string;
-        instrument: string;
-        province?: string;
+        instrument: Instrument;
+        province?: Province;
         createdAt: Date;
     }[];
 }
