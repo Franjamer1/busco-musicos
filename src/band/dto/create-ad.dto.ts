@@ -1,4 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { Instrument } from "src/common/enums/instrument.enum";
+import { Province } from "src/common/enums/province.enum";
 
 export class CreateAdDto {
     @IsString()
@@ -9,11 +11,10 @@ export class CreateAdDto {
     @IsNotEmpty()
     description: string;
 
-    @IsString()
-    @IsNotEmpty()
-    instrument: string;
+    @IsEnum(Instrument)
+    instrument: Instrument;
 
-    @IsString()
     @IsOptional()
-    province?: string;
+    @IsEnum(Province)
+    province?: Province;
 }

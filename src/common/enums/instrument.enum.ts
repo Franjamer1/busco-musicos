@@ -1,0 +1,23 @@
+export enum Instrument {
+    Acordeón = 'acordeón',
+    Bajo = 'bajo',
+    Bandoneón = 'bandoneón',
+    Batería = 'batería',
+    BomboLegüero = 'bombo legüero',
+    Charango = 'charango',
+    Congas = 'congas',
+    GuitarraCriolla = 'guitarra criolla',
+    GuitarraEléctrica = 'guitarra eléctrica',
+    Güiro = 'güiro',
+    Percusión = 'percusión',
+    Piano = 'piano',
+    Quena = 'quena',
+    Saxofón = 'saxofón',
+    Tambora = 'tambora',
+    Teclado = 'teclado',
+    Timbales = 'timbales',
+    Trombón = 'trombón',
+    Trompeta = 'trompeta',
+    Violín = 'violín',
+    Otro = 'otro'
+}
