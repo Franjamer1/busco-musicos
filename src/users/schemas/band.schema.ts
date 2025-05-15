@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { User } from "./user.schema";
 import { Instrument } from "src/common/enums/instrument.enum";
 import { Province } from "src/common/enums/province.enum";
+import { Genre } from "src/common/enums/genre.enum";
 
 @Schema()
 export class Band extends User {
@@ -20,6 +21,11 @@ export class Band extends User {
             {
                 title: { type: String, required: true },
                 description: { type: String, required: true },
+                genre: {
+                    type: String,
+                    enum: Object.values(Genre),
+                    required: true,
+                },
                 instrument: {
                     type: String,
                     enum: Object.values(Instrument),
@@ -38,6 +44,7 @@ export class Band extends User {
     ads: {
         title: string;
         description: string;
+        genre: Genre;
         instrument: Instrument;
         province?: Province;
         createdAt: Date;
