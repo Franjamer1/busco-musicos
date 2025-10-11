@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards, UseInterceptors, UploadedFile, Req, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
@@ -9,6 +9,7 @@ import { CreateMultimediaDto } from './dto/create-multimedia.dto';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { UserRole } from 'src/common/enums/user-role.enum';
+import { query } from 'express';
 
 @UseGuards(AuthGuard("jwt"))
 @Controller('users')
@@ -69,7 +70,10 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query() query: any) {
+    if (query.id) {
+      throw new BadRequestException("Este endpoint no acepta ?id=. Usa GET /users/:id para buscar un usuario por id")
+    }
     return this.usersService.findAll();
   }
 
