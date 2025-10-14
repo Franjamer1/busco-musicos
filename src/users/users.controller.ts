@@ -69,13 +69,34 @@ export class UsersController {
     throw new BadRequestException("Usa /auth/register para crear usuarios")
   }
 
+  // @Get()
+  // findAll(@Query() query: any) {
+  //   if (query.id) {
+  //     throw new BadRequestException("Este endpoint no acepta ?id=. Usa GET /users/:id para buscar un usuario por id")
+  //   }
+  //   return this.usersService.findAll();
+  // }
+
+
+  //Traer a todos los usuarios o filtrar por role
   @Get()
-  findAll(@Query() query: any) {
-    if (query.id) {
-      throw new BadRequestException("Este endpoint no acepta ?id=. Usa GET /users/:id para buscar un usuario por id")
-    }
+  findAll(@Query('role') role?: UserRole) {
+    if (role) return this.usersService.findByRole(role);
     return this.usersService.findAll();
   }
+
+  //Traer Bandas
+  @Get('bands')
+  findBands() {
+    return this.usersService.findByRole(UserRole.Band);
+  }
+
+  //Traer musicos
+  @Get('musicians')
+  findMusicians() {
+    return this.usersService.findByRole(UserRole.Musician);
+  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {

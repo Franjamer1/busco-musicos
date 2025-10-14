@@ -3,7 +3,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import { RegisterAuthDto } from 'src/auth/dto/register-auth.dto';
+import { RegisterAuthDto, UserRole } from 'src/auth/dto/register-auth.dto';
 
 
 @Injectable()
@@ -34,6 +34,10 @@ export class UsersService {
 
   async findOne(id: string): Promise<User | null> {
     return this.userModel.findById(id).exec();
+  }
+
+  async findByRole(role: UserRole): Promise<User[]> {
+    return this.userModel.find({ role }).exec();
   }
 
   async updateProfilePhoto(userId: string, photoUrl: string) {
