@@ -8,5 +8,6 @@ import { AuthModule } from 'src/auth/auth.module';
   imports: [UsersModule, AuthModule],
   controllers: [BandController],
   providers: [BandService],
+  exports: [BandService],
 })
 export class BandModule { }
