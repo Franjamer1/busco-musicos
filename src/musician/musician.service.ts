@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMusicianDto } from './dto/create-musician.dto';
-import { UpdateMusicianDto } from './dto/update-musician.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from 'src/users/schemas/user.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class MusicianService {
-  create(createMusicianDto: CreateMusicianDto) {
-    return 'This action adds a new musician';
-  }
+    constructor(
+        @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    ) { }
+    async getMusicianApplications(musicianId: string) {
+        const BandModel = this.userModel.discriminators?.["band"];
+        if (!BandModel) throw new Error('Discriminador "band" no definido');
 
-  findAll() {
-    return `This action returns all musician`;
-  }
+        const bands = await BandModel.find().lean();
 
-  findOne(id: number) {
-    return `This action returns a #${id} musician`;
-  }
+        const results = [];
 
-  update(id: number, updateMusicianDto: UpdateMusicianDto) {
-    return `This action updates a #${id} musician`;
-  }
+        for (const band of bands) {
+            for (const ad of band.ads) {
+                if (!ad.applicants) continue;
 
-  remove(id: number) {
-    return `This action removes a #${id} musician`;
-  }
+                ad.applicants.forEach(app => {
+                    if (app.musicianId === musicianId) {
+                        results.push({
+                            bandId: band._id,
+                            bandName: band.username,
+                            adId: ad._id,
+                            adTitle: ad.title,
+                            message: app.message,
+                            date: app.createdAt || app.date,
+                        });
+                    }
+                });
+            }
+        }
+
+        return results;
+    }
 }

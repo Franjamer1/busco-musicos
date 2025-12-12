@@ -20,17 +20,8 @@ export class BandController {
     return this.bandService.createAd(bandId, createAdDto);
   }
 
-  // @Get('ads')
-  // async getAds(
-  //   @Query('province') province?: string,
-  //   @Query('instrument') instrument?: string,
-  //   @Query('search') search?: string,
-  // ) {
-
-  //   return this.bandService.getFilteredAds({ province, instrument, search });
-  // }
   @Get('ads')
-  async getFilteredAds(@Query() filterDto: FilterAdsDto) {
-    return this.bandService.getFilteredAds(filterDto);
+  async getAds(@Req() req: any) {
+    return this.bandService.getFilteredAds(req.query);
   }
 }
