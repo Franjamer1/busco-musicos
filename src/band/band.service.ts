@@ -108,5 +108,49 @@ export class BandService {
     return { message: 'Postulación enviada con éxito' };
   }
 
+  //Get Aplicantes
+  async getAdApplications(adId: string) {
+    const BandModel = this.userModel.discriminators?.['band'];
+    if (!BandModel) {
+      throw new Error('Discriminador "band" no definido');
+    }
+
+    const band: any = await BandModel.findOne(
+      { 'ads._id': adId },
+      { 'ads.$': 1 }
+    ).lean();
+
+    if (!band || !band.ads || band.ads.length === 0) {
+      throw new NotFoundException('Anuncio no encontrado');
+    }
+
+    const ad = band.ads[0];
+    const applicants = ad.applicants || [];
+
+    if (applicants.length === 0) return [];
+
+    // ids de músicos
+    const musicianIds = applicants.map(a => a.musicianId);
+
+    const musicians = await this.userModel
+      .find({ _id: { $in: musicianIds } })
+      .select('username profilePhoto')
+      .lean();
+
+    return applicants.map(app => {
+      const musician = musicians.find(
+        m => m._id.toString() === app.musicianId
+      );
+
+      return {
+        musicianId: app.musicianId,
+        username: musician?.username,
+        profilePhoto: musician?.profilePhoto,
+        message: app.message,
+        date: app.createdAt || app.date,
+      };
+    });
+  }
+
 
 }
