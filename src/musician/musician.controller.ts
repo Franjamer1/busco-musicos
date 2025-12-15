@@ -1,7 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards } from '@nestjs/common';
 import { MusicianService } from './musician.service';
-import { CreateMusicianDto } from './dto/create-musician.dto';
-import { UpdateMusicianDto } from './dto/update-musician.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { UserRole } from 'src/common/enums/user-role.enum';
 import { ApplyAdDto } from './dto/applyAdd.dto';
