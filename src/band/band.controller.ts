@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Get, Query, Param } from '@nestjs/common';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { BandService } from './band.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
@@ -23,5 +23,12 @@ export class BandController {
   @Get('ads')
   async getAds(@Req() req: any) {
     return this.bandService.getFilteredAds(req.query);
+  }
+
+  @Get("ads/:id/applications")
+  async getAdApplications(
+    @Param("id") adId: string,
+  ) {
+    return this.bandService.getAdApplications(adId);
   }
 }
