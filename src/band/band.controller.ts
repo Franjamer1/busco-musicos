@@ -26,6 +26,7 @@ export class BandController {
   }
 
   @Get("ads/:id/applications")
+  @Roles(UserRole.Band)
   async getAdApplications(
     @Param("id") adId: string,
   ) {
